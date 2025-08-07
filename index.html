@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI & Mobile Developer | Mustafa Yılmaz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a0e27;
+            --secondary: #1a1f3a;
+            --accent: #00d2ff;
+            --accent-hover: #00b8e6;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --success: #00ff88;
+            --warning: #ff6b35;
+            --purple: #c77dff;
+            --pink: #ff006e;
+            --gradient-main: linear-gradient(135deg, #ff006e 0%, #fb5607 100%);
+            --gradient-accent: linear-gradient(135deg, #00d2ff 0%, #3a0ca3 100%);
+            --gradient-tech: linear-gradient(135deg, #00ff88 0%, #00d2ff 100%);
+            --card-bg: rgba(26, 31, 58, 0.8);
+            --border: rgba(168, 178, 209, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--primary);
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(45deg, rgba(0, 210, 255, 0.15), rgba(199, 125, 255, 0.15));
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            right: 30%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.5;
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg);
+                opacity: 0.8;
+            }
+            66% {
+                transform: translateY(20px) rotate(240deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .profile-photo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-placeholder {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            border: 4px solid rgba(0, 210, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .profile-placeholder:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.5);
+            border-color: rgba(255, 0, 110, 0.7);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Quick Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            background: var(--gradient-tech);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Tech Stack */
+        .tech-section {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .tech-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        /* About Section */
+        .about-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Experience Section */
+        .experience-section {
+            margin: 4rem 0;
+        }
+
+        .experience-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .exp-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .exp-company {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .exp-date {
+            color: var(--text-secondary);
+            font-weight: 500;
+            background: rgba(0, 210, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .exp-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .exp-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(0, 210, 255, 0.2);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+
+        /* Education Section */
+        .education-section {
+            margin: 4rem 0;
+        }
+
+        .education-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .education-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 2rem;
+            color: white;
+        }
+
+        .education-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-school {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .education-gpa {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--gradient-main);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .contact-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .exp-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .profile-placeholder {
+                width: 160px;
+                height: 160px;
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="profile-photo">
+                    <div class="profile-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <h1 class="hero-title">Mustafa Yılmaz</h1>
+                <p class="hero-subtitle">
+                    <i class="fas fa-brain"></i>
+                    AI & Mobile Developer
+                </p>
+                <p class="hero-description">
+                    Yapay zeka ve mobil geliştirme alanlarında uzmanlaşan bir bilgisayar mühendisi. Görüntü işleme, Raspberry Pi projeleri ve Flutter uygulamaları geliştirme konusunda deneyimli. Sürekli öğrenen bir geliştirici olarak teknolojik yenilikleri yakından takip ediyorum.
+                </p>
+            </div>
+        </section>
+
+        <!-- Quick Info Cards -->
+        <div class="info-cards fade-in">
+            <div class="info-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Çukurova Üniversitesi</h3>
+                <p>Bilgisayar Mühendisliği<br>GPA: 2.67</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-building"></i>
+                <h3>Teknology House</h3>
+                <p>Adana Teknokent<br>Staj Deneyimi</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-code"></i>
+                <h3>Teknolojiler</h3>
+                <p>Flutter, YOLOv8, OpenCV<br>Raspberry Pi, Firebase</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-robot"></i>
+                <h3>İlgi Alanları</h3>
+                <p>Yapay Zeka, Görüntü İşleme<br>Mobil Geliştirme</p>
+            </div>
+        </div>
+
+        <!-- Tech Stack Section -->
+        <section class="tech-section fade-in">
+            <h2 class="section-title">Teknolojiler</h2>
+            <div class="tech-stack">
+                <span class="tech-item">Flutter</span>
+                <span class="tech-item">Firebase</span>
+                <span class="tech-item">YOLOv8</span>
+                <span class="tech-item">OpenCV</span>
+                <span class="tech-item">Raspberry Pi</span>
+                <span class="tech-item">Python</span>
+                <span class="tech-item">Dart</span>
+                <span class="tech-item">C++</span>
+                <span class="tech-item">C</span>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section fade-in">
+            <h2 class="section-title">Hakkımda</h2>
+            <div class="about-text">
+                <p>
+                    Çukurova Üniversitesi Bilgisayar Mühendisliği mezunu olarak akademik yolculuğum boyunca yapay zeka, görüntü işleme ve mobil geliştirme alanlarında kendimi geliştirdim. Özellikle Teknology House stajım sırasında gerçek projeler üzerinde çalışma fırsatı buldum.
+                </p>
+                <p>
+                    Akademik gelişimimi sürdürürken yapay zeka projeleri ve Raspberry Pi ile çalışmalar yapıyorum. YOLOv8 segmentasyon modelleri, heatmap üretimi ve Flutter mobil uygulamaları geliştirme konusunda deneyim kazandım. Sürekli öğrenen bir geliştirici olarak teknoloji dünyasındaki yenilikleri yakından takip ediyorum.
+                </p>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="experience-section fade-in">
+            <h2 class="section-title">Deneyimlerim</h2>
+            
+            <div class="experience-card">
+                <div class="exp-header">
+                    <div>
+                        <div class="exp-title">Intern</div>
+                        <div class="exp-company">Teknology House – Adana Teknokent</div>
+                    </div>
+                    <div class="exp-date">Temmuz 2025 – Günümüz</div>
+                </div>
+                <div class="exp-description">
+                    Görüntü işleme, Raspberry Pi ve yapay zeka destekli tarım projelerinde görev aldım. YOLOv8 segmentasyon modelleri, heatmap üretimi, mobil Flutter uygulaması ve Telegram bildirim sistemi geliştirdim. Gerçek zamanlı veri analizi ve IoT entegrasyonu konusunda deneyim kazandım.
+                </div>
+                <div class="exp-skills">
+                    <span class="skill-tag">YOLOv8</span>
+                    <span class="skill-tag">OpenCV</span>
+                    <span class="skill-tag">Flutter</span>
+                    <span class="skill-tag">Raspberry Pi</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Telegram API</span>
+                    <span class="skill-tag">Computer Vision</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="education-section fade-in">
+            <h2 class="section-title">Eğitim</h2>
+            <div class="education-card">
+                <div class="education-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="education-title">Lisans, Bilgisayar Mühendisliği</div>
+                <div class="education-school">Çukurova Üniversitesi</div>
+                <div class="education-gpa">GPA: 2.67</div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section fade-in">
+            <h2 class="section-title">İletişim</h2>
+            <p class="contact-description">
+                Yeni fırsatlar için benimle iletişime geçmekten çekinmeyin.
+                AI ve mobil geliştirme projeleri için işbirliği yapmaya hazırım!
+            </p>
+            <div class="contact-links">
+                <a href="mailto:mustafayadana001@gmail.com" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    E-posta Gönder
+                </a>
+                <a href="https://linkedin.com/in/mustafayilmaz01" target="_blank" class="contact-link">
+                    <i class="fab fa-linkedin"></i>
+                    LinkedIn
+                </a>
+                <a href="https://github.com/mustafayilmaz01" target="_blank" class="contact-link">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Mustafa Yılmaz | AI & Mobile Developer</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements that should fade in
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add interactive effects to tech items
+        document.querySelectorAll('.tech-item').forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            item.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add floating animation to shapes
+        document.querySelectorAll('.shape').forEach((shape, index) => {
+            shape.addEventListener('mouseenter', function () {
+                this.style.animationPlayState = 'paused';
+                this.style.transform = 'scale(1.2)';
+            });
+            shape.addEventListener('mouseleave', function () {
+                this.style.animationPlayState = 'running';
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
